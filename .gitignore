@@ -1,0 +1,24 @@
+# Rust build artifacts
+/target/
+
+# Cargo lock (ignore ONLY for libraries, keep for binaries)
+# Cargo.lock
+
+# Rustfmt backup files
+**/*.rs.bk
+
+# IDEs / editors
+.idea/
+.vscode/
+*.code-workspace
+
+# macOS
+.DS_Store
+
+# Environment variables
+.env
+.env.*
+
+# Logs
+*.log
+.sqlx/

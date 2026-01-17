@@ -1,0 +1,17 @@
+[package]
+name = "pos-be"        
+version = "0.1.0" 
+edition = "2024"     
+
+
+[dependencies]
+actix-web = "4"
+serde = { version = "1.0", features = ["derive"] }
+sqlx = { version = "0.7", features = ["runtime-tokio-rustls", "mysql", "chrono", "uuid"] }
+tokio = { version = "1", features = ["full"] }
+argon2 = "0.5" 
+jsonwebtoken = "9" 
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+dotenv = "0.15"
+rand = "0.8"
