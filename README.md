@@ -1,4 +1,4 @@
-# 🚀 High-Performance POS Backend (Rust)
+# 🚀 High-Performance POS Backend
 
 > **"Built for Speed, Reliability, and Fast Delivery."**
 
@@ -29,6 +29,7 @@ A modern Point of Sale (POS) backend API built with **Rust** and **Actix Web**. 
 We follow a strict **Clean Architecture** to ensure the code remains readable as the project grows.
 
 ```text
+migrations/          # Migrations
 src/
 ├── api/             # Route Configuration (Router)
 ├── controllers/     # HTTP Request Handlers (Input parsing, Response formatting)
