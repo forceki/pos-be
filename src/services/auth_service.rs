@@ -69,7 +69,7 @@ impl AuthService {
             return Err(ErrorInternalServerError("Email atau Password salah"));
         }
 
-        let token = token_utils::generate_token(&user.user_id.to_string(), &user.role_id.to_string()) // Sesuaikan user_id u64/string
+        let token = token_utils::generate_token(&user.user_id.to_string(), &user.role_id.to_string(), &user.tenant_id.to_string()) // Sesuaikan user_id u64/string
             .map_err(|e| ErrorInternalServerError(e.to_string()))?;
 
         let login_response = LoginResponseDto {

@@ -66,7 +66,7 @@ impl UserRepository {
 
     pub async fn fetch_all(&self, limit: i64, offset: i64) -> Result<(Vec<User>, i64), sqlx::Error> {
 
-        let count_result = sqlx::query!("SELECT count(*) as count FROM users")
+        let count_result = sqlx::query!("SELECT count(1) as count FROM users")
             .fetch_one(&self.pool)
             .await?;
 

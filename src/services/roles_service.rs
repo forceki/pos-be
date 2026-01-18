@@ -22,13 +22,14 @@ impl RolesService{
             id: Uuid::new_v4().to_string(),
             name: body.name,
             description: body.description,
+            tenant_id: body.tenant_id,
             created_at: Utc::now(),
             updated_at: Some(Utc::now())
         };
 
         match self.repo.create(&role).await {
             Ok(_) => Ok("Role succesfuly created".to_string()),
-             Err(e) => {
+            Err(e) => {
                 return Err(ErrorInternalServerError(format!("Gagal membuat role: {}", e)));
             }
         }

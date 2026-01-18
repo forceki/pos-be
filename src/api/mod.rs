@@ -3,6 +3,7 @@ use actix_web::web;
 mod auth_routes;
 mod users_routes;
 mod roles_routes;
+mod company_routes;
 
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
@@ -10,6 +11,7 @@ pub fn config(cfg: &mut web::ServiceConfig) {
             .configure(auth_routes::config)
             .configure(users_routes::config)
             .configure(roles_routes::config)
+            .configure(company_routes::config)
 
     );
 }
