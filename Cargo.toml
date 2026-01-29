@@ -16,3 +16,4 @@ uuid = { version = "1", features = ["v4", "serde"] }
 dotenv = "0.15"
 rand = "0.8"
 slug = "0.1.6"
+futures-util = "0.3.31"

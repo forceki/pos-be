@@ -11,6 +11,7 @@ mod services;
 mod utils;
 mod app_state;
 mod api;
+mod middleware;
 
 use app_state::AppState;
 

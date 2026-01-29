@@ -13,7 +13,7 @@ use crate::services::roles_service::RolesService;
 
 //company 
 use crate::repository::company_repository::CompanyRepository;
-use crate::services::company_service::{self, CompanyService};
+use crate::services::company_service::CompanyService;
 
 pub struct AppState {
     pub auth_service: AuthService,

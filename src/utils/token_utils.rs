@@ -1,5 +1,5 @@
 use chrono::{Duration, Utc};
-use jsonwebtoken::{encode, Header, EncodingKey};
+use jsonwebtoken::{encode, decode, Validation, DecodingKey, Header, EncodingKey};
 use serde::{Deserialize, Serialize};
 use std::env;
 
@@ -34,4 +34,17 @@ pub fn generate_token(user_id: &str, role_id: &str, tenant_id: &str) -> Result<S
         &claims,
         &EncodingKey::from_secret(secret.as_bytes()),
     )
+}
+
+pub fn decode_token(token: &str) -> Result<Claims, String>{
+    let secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
+
+    let token_data = decode::<Claims>(
+        token,
+        &DecodingKey::from_secret(secret.as_bytes()),
+        &Validation::default(),
+    ).map_err(|e| e.to_string())?;
+
+
+    Ok(token_data.claims)
 }
