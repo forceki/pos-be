@@ -41,8 +41,8 @@ impl AppState {
         RolesService::new(repo)
     }
 
-    pub fn company_service(&self, tenant_id: String) -> CompanyService {
-        let repo = CompanyRepository::new(self.db.clone(), tenant_id);
+    pub fn company_service(&self) -> CompanyService {
+        let repo = CompanyRepository::new(self.db.clone());
         CompanyService::new(repo)
     }
 

@@ -1,5 +1,5 @@
-use actix_web::{Responder, body, get, post, web};
-use crate::dtos::auth_dto::{LoginUserDTO, OnboardUserDTO, RegisterUserDTO};
+use actix_web::{Responder, get, post, web};
+use crate::dtos::auth_dto::{LoginUserDTO, OnboardUserDTO};
 use crate::utils::api_response::ApiResponse;
 use crate::app_state::AppState;
 

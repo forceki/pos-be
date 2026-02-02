@@ -19,7 +19,7 @@ impl RolesRepository{
             "INSERT INTO roles (id, name, tenant_id, description, created_at, updated_at) VALUES (?,?,?,?,?,?)",
             role.id,
             role.name,
-            role.tenant_id,
+            self.tenant_id,
             role.description,
             role.created_at,
             role.updated_at
@@ -32,7 +32,7 @@ impl RolesRepository{
     }
 
     pub async fn index(&self, limit: i64, offset: i64) -> Result<(Vec<Roles>, i64), sqlx::Error> {
-        let count_result = sqlx::query!("SELECT count(1) as count FROM roles")
+        let count_result = sqlx::query!("SELECT count(1) as count FROM roles WHERE tenant_id = ? ", self.tenant_id)
             .fetch_one(&self.pool)
             .await?;
 
