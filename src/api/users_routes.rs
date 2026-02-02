@@ -6,7 +6,9 @@ pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/users") 
             .wrap(JwtMiddleware)
+            .service(users_controllers::register)
             .service(users_controllers::get_users)
+            .service(users_controllers::check_users)
             .service(users_controllers::get_users_by_id)
     );
 }

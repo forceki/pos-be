@@ -5,12 +5,13 @@ use crate::models::company_model::Company;
 
 #[derive(Clone)]
 pub struct CompanyRepository{
-    pub pool: MySqlPool
+    pub pool: MySqlPool,
+    pub tenant_id: String
 }
 
 impl CompanyRepository {
-    pub fn new(pool: MySqlPool) -> Self {
-        CompanyRepository { pool }
+    pub fn new(pool: MySqlPool, tenant_id: String) -> Self {
+        CompanyRepository { pool, tenant_id }
     }
 
     pub async fn create(&self, data: &Company) -> Result<(), sqlx::Error> {

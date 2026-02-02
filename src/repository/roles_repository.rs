@@ -5,12 +5,13 @@ use crate::models::roles_model::Roles;
 
 #[derive(Clone)]
 pub struct RolesRepository {
-    pub pool: MySqlPool
+    pub pool: MySqlPool,
+    pub tenant_id: String,
 }
 
 impl RolesRepository{
-    pub fn new(pool: MySqlPool) -> Self {
-        RolesRepository { pool}
+    pub fn new(pool: MySqlPool, tenant_id: String) -> Self {
+        RolesRepository { pool, tenant_id}
     }
 
     pub async fn create(&self, role: &Roles) -> Result<(), sqlx::Error> {

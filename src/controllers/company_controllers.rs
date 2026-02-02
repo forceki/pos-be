@@ -1,14 +1,18 @@
-use actix_web::{Responder, post, web};
+use actix_web::{HttpMessage, HttpRequest, Responder, post, web};
 
-use crate::{app_state::AppState, dtos::company_dto::CreateCompanyDTO, utils::api_response::ApiResponse};
+use crate::{app_state::AppState, dtos::company_dto::CreateCompanyDTO, utils::{api_response::ApiResponse, token_utils::Claims}};
 
 
 #[post("/")]
 pub async fn create(
     body: web::Json<CreateCompanyDTO>,
-    state: web::Data<AppState>
+    state: web::Data<AppState>,
+    req: HttpRequest
 ) -> impl Responder {
-    match state.company_service.create(body.into_inner()).await {
+    let claims = req.extensions().get::<Claims>().unwrap().clone();
+    let service = state.company_service(claims.tenant_id);
+    
+    match service.create(body.into_inner()).await {
         Ok(role) => {
             ApiResponse::response(role, Some("Succes".to_string()), actix_web::http::StatusCode::CREATED)
         }

@@ -1,9 +1,7 @@
-use crate::dtos::auth_dto::{LoginUserDTO, RegisterUserDTO, UserResponseDto, LoginResponseDto};
-use crate::repository::user_repository::UserRepository;
-use crate::models::user_model::User;
-use crate::utils::token_utils;
+use crate::dtos::auth_dto::{CreateOnboardDTO, LoginResponseDto, LoginUserDTO, OnboardUserDTO, RegisterUserDTO, UserResponseDto};
+use crate::repository::auth_repository::AuthRepository;
+use crate::utils::{text_utils, token_utils};
 use uuid::Uuid;
-use chrono::Utc;
 use argon2::{
     password_hash::{SaltString, PasswordHasher, PasswordVerifier},
     Argon2
@@ -12,43 +10,48 @@ use argon2::{
 use actix_web::error::ErrorInternalServerError;
 
 pub struct AuthService {
-    repo: UserRepository,
+    repo: AuthRepository,
 }
 
 impl AuthService {
-    pub fn new(repo: UserRepository) -> Self {
+    pub fn new(repo: AuthRepository) -> Self {
         AuthService { repo }
     }
 
-    pub async fn register_user(&self, dto: RegisterUserDTO) -> Result<String, actix_web::Error> {
+    fn generate_password(password: &str) -> Result<String, actix_web::Error> {
         let salt = SaltString::generate(&mut rand::thread_rng());
         let argon2 = Argon2::default();
-        let password_hash = argon2.hash_password(dto.password.as_bytes(), &salt)
-            .map_err(|_| ErrorInternalServerError("Gagal hash password"))?
+
+        let password_hash = argon2
+            .hash_password(password.as_bytes(), &salt)
+            .map_err(|e| ErrorInternalServerError(format!("Gagal hash: {}", e)))?
             .to_string();
 
-        let new_user = User {
+        Ok(password_hash)
+    }
+    
+    pub async fn onboard(&self, dto: OnboardUserDTO) -> Result<String, actix_web::Error> {
+        
+        let hashed_password = Self::generate_password(&dto.password)?;
+        let raw_slug = text_utils::to_slug(&dto.company_name);
+
+        let payload = CreateOnboardDTO{
             user_id: Uuid::new_v4().to_string(),
-            username: dto.username,
-            email: dto.email,
             fullname: dto.fullname,
-            password: password_hash,
-            role_id: dto.role_id,
-            tenant_id: dto.tenant_id,
-            created_at: Utc::now(),
-            updated_at: Utc::now(),
+            email: dto.email,
+            password: hashed_password,
+            company_id : Uuid::new_v4().to_string(),
+            company_name: dto.company_name,
+            company_slug: raw_slug,
+            role_id: Uuid::new_v4().to_string(),
+            role_name: "Owner".to_string()
         };
 
+        let user_id = self.repo.onboard(payload)
+            .await
+            .map_err(|e| ErrorInternalServerError(e))?;
 
-        match self.repo.create(&new_user).await {
-            Ok(_) => Ok("User berhasil dibuat".to_string()),
-            Err(sqlx::Error::Database(db_err)) if db_err.code().as_deref() == Some("23000") => {
-                return Err(ErrorInternalServerError("Email sudah terdaftar"));
-            },
-            Err(e) => {
-                return Err(ErrorInternalServerError(format!("Gagal membuat user: {}", e)));
-            }
-        }
+        Ok(user_id)
     }
 
     pub async fn login_user(&self, dto: LoginUserDTO) -> Result<LoginResponseDto, actix_web::Error> {

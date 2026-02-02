@@ -54,14 +54,13 @@ where
                 if let Ok(auth_str) = header_value.to_str() {
                     if auth_str.starts_with("Bearer ") {
                         let token = &auth_str[7..]; 
-
+                        
                         match token_utils::decode_token(token) {
                             Ok(claims) => {
                                 req.extensions_mut().insert(claims);
-
                                 return svc.call(req).await;
                             }
-                            Err(_) => {
+                            Err(e) => {
                                 return Err(ErrorUnauthorized("Token Invalid"));
                             }
                         }

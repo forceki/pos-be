@@ -6,7 +6,6 @@ use chrono::{DateTime, Utc};
 #[derive(Debug, Serialize, Deserialize, FromRow)]
 pub struct User {
     pub user_id: String,
-    pub username: String,
     pub fullname: String,
     pub email: String,
     pub password: String,
