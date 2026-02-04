@@ -9,7 +9,7 @@ A modern Point of Sale (POS) backend API built with **Rust** and **Actix Web**. 
 * **🦀 Blazing Fast:** Built on top of Actix Web (one of the fastest web frameworks in the world).
 * **🛡️ Type-Safe Database:** Uses **SQLx** for compile-time checked SQL queries against MySQL.
 * **🔐 Secure Authentication:** Industrial-grade security with **Argon2** hashing and **JWT** (JSON Web Tokens).
-* **🏢 Multi-Tenancy:** Built-in support for multi-tenant architecture (Data isolation by `tenant_id`).
+* **🏢 Multi-Tenancy:** Built-in support for multi-tenant architecture (Data isolation by `company_id`).
 * **📦 Clean Architecture:** Modular design using the Controller-Service-Repository pattern for easy maintenance and scalability.
 * **📄 Pagination & Metadata:** Standardized API responses with automatic pagination meta handling.
 * **✅ Input Validation:** Strict DTO validation and graceful error handling.

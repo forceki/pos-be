@@ -6,14 +6,14 @@ use std::env;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Claims {
     pub sub: String,  
-    pub tenant_id: String,
+    pub company_id: String,
     pub role: String, 
     pub exp: usize, 
     pub iat: usize,
 }
 
 
-pub fn generate_token(user_id: &str, role_id: &str, tenant_id: &str) -> Result<String, jsonwebtoken::errors::Error> {
+pub fn generate_token(user_id: &str, role_id: &str, company_id: &str) -> Result<String, jsonwebtoken::errors::Error> {
     let secret = env::var("JWT_SECRET").expect("JWT_SECRET must be set");
 
     let expiration = Utc::now()
@@ -23,7 +23,7 @@ pub fn generate_token(user_id: &str, role_id: &str, tenant_id: &str) -> Result<S
 
     let claims = Claims {
         sub: user_id.to_owned(),
-        tenant_id: tenant_id.to_owned(),
+        company_id: company_id.to_owned(),
         role: role_id.to_owned(),
         exp: expiration as usize,
         iat: Utc::now().timestamp() as usize,

@@ -4,6 +4,7 @@ mod auth_routes;
 mod users_routes;
 mod roles_routes;
 mod company_routes;
+mod stores_routes;
 
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(

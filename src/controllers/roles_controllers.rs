@@ -11,7 +11,7 @@ pub async fn create(
     req: HttpRequest
 ) -> impl  Responder {
     let claims = req.extensions().get::<Claims>().unwrap().clone();
-    let service = state.roles_service(claims.tenant_id);
+    let service = state.roles_service(claims.company_id);
 
     match service.create(body.into_inner()).await  {
         Ok(role) => {

@@ -8,7 +8,7 @@ pub struct Roles {
     pub id: String, 
     pub name: String,
     pub description: Option<String>,
-    pub tenant_id: String,
+    pub company_id: String,
     pub created_at: DateTime<Utc>,
     pub updated_at: Option<DateTime<Utc>>,
 }

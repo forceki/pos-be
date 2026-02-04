@@ -7,7 +7,7 @@ use crate::models::roles_model::Roles;
 pub struct CreateRolesDTO{
     pub name: String,
     pub description: Option<String>,
-    pub tenant_id: String
+    pub company_id: String
 }
 
 
@@ -16,7 +16,7 @@ pub struct RolesResponseDTO{
     pub id: String, 
     pub name: String,
     pub description: Option<String>,
-    pub tenant_id: String,
+    pub company_id: String,
     pub created_at: DateTime<Utc>
 }
 
@@ -26,7 +26,7 @@ impl From<Roles> for RolesResponseDTO {
             id: role.id, 
             name: role.name, 
             description: role.description, 
-            tenant_id: role.tenant_id,
+            company_id: role.company_id,
             created_at: role.created_at
         }
     }

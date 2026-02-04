@@ -8,7 +8,7 @@ pub struct RegisterUserDTO {
     pub email: String,
     pub password: String,
     pub role_id: String,
-    pub tenant_id: String,
+    pub company_id: String,
 }
 #[derive(Deserialize)]
 pub struct OnboardUserDTO {
@@ -50,7 +50,7 @@ pub struct UserResponseDto {
     pub fullname: String,
     pub email: String,
     pub role_id: String,
-    pub tenant_id: String,
+    pub company_id: String,
 }
 
 impl From<User> for UserResponseDto {
@@ -60,7 +60,7 @@ impl From<User> for UserResponseDto {
             fullname: user.fullname,
             email: user.email,
             role_id: user.role_id,
-            tenant_id: user.tenant_id,
+            company_id: user.company_id,
         }
     }
 }

@@ -1,8 +1,10 @@
 use sqlx::MySqlPool;
 
 use crate::repository::auth_repository::AuthRepository;
+use crate::repository::store_repository::StoreRepository;
 //user
 use crate::repository::user_repository::UserRepository;
+use crate::services::store_service::StoreService;
 use crate::services::users_service::UsersService;
 
 //auth
@@ -31,19 +33,24 @@ impl AppState {
         AuthService::new(repo)
     }
 
-    pub fn users_service(&self, tenant_id: String) -> UsersService {
-        let repo = UserRepository::new(self.db.clone(), tenant_id);
+    pub fn users_service(&self, company_id: String) -> UsersService {
+        let repo = UserRepository::new(self.db.clone(), company_id);
         UsersService::new(repo)
     }
 
-    pub fn roles_service(&self, tenant_id: String) -> RolesService {
-        let repo = RolesRepository::new(self.db.clone(), tenant_id);
+    pub fn roles_service(&self, company_id: String) -> RolesService {
+        let repo = RolesRepository::new(self.db.clone(), company_id);
         RolesService::new(repo)
     }
 
     pub fn company_service(&self) -> CompanyService {
         let repo = CompanyRepository::new(self.db.clone());
         CompanyService::new(repo)
+    }
+
+    pub fn store_service(&self, company_id: String) -> StoreService {
+        let repo = StoreRepository::new(self.db.clone(), company_id);
+        StoreService::new(repo)
     }
 
     // pub fn new(pool : MySqlPool) -> Self {

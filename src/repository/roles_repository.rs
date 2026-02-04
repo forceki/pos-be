@@ -6,20 +6,20 @@ use crate::models::roles_model::Roles;
 #[derive(Clone)]
 pub struct RolesRepository {
     pub pool: MySqlPool,
-    pub tenant_id: String,
+    pub company_id: String,
 }
 
 impl RolesRepository{
-    pub fn new(pool: MySqlPool, tenant_id: String) -> Self {
-        RolesRepository { pool, tenant_id}
+    pub fn new(pool: MySqlPool, company_id: String) -> Self {
+        RolesRepository { pool, company_id}
     }
 
     pub async fn create(&self, role: &Roles) -> Result<(), sqlx::Error> {
         sqlx::query!(
-            "INSERT INTO roles (id, name, tenant_id, description, created_at, updated_at) VALUES (?,?,?,?,?,?)",
+            "INSERT INTO roles (id, name, company_id, description, created_at, updated_at) VALUES (?,?,?,?,?,?)",
             role.id,
             role.name,
-            self.tenant_id,
+            self.company_id,
             role.description,
             role.created_at,
             role.updated_at
@@ -32,7 +32,7 @@ impl RolesRepository{
     }
 
     pub async fn index(&self, limit: i64, offset: i64) -> Result<(Vec<Roles>, i64), sqlx::Error> {
-        let count_result = sqlx::query!("SELECT count(1) as count FROM roles WHERE tenant_id = ? ", self.tenant_id)
+        let count_result = sqlx::query!("SELECT count(1) as count FROM roles WHERE company_id = ? ", self.company_id)
             .fetch_one(&self.pool)
             .await?;
 
@@ -40,7 +40,7 @@ impl RolesRepository{
 
         let roles = sqlx::query_as!(
             Roles,
-            "SELECT id, name, description, tenant_id, created_at, updated_at FROM roles LIMIT ? OFFSET ?",
+            "SELECT id, name, description, company_id, created_at, updated_at FROM roles LIMIT ? OFFSET ?",
             limit,
             offset
         )

@@ -10,7 +10,7 @@ pub struct User {
     pub email: String,
     pub password: String,
     pub role_id: String,
-    pub tenant_id: String,
+    pub company_id: String,
     pub created_at: DateTime<Utc>,
     pub updated_at: DateTime<Utc>,
 }

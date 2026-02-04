@@ -14,7 +14,7 @@ pub async fn get_users(
     req: HttpRequest
 ) -> impl Responder {
     let claims = req.extensions().get::<Claims>().unwrap().clone();
-    let service = state.users_service(claims.tenant_id);
+    let service = state.users_service(claims.company_id);
 
     match service.get_all_users(query.into_inner()).await {
         Ok((users, meta)) => {
@@ -51,7 +51,7 @@ pub async fn register(
     req: HttpRequest
 ) -> impl Responder {
     let claims = req.extensions().get::<Claims>().unwrap().clone();
-    let service = state.users_service(claims.tenant_id);
+    let service = state.users_service(claims.company_id);
     match service.register_user(body.into_inner()).await {
         Ok(created_user) => {
             ApiResponse::response(created_user, Some("Register Succes".to_string()), actix_web::http::StatusCode::CREATED)
@@ -71,7 +71,7 @@ pub async fn get_users_by_id(
 
     let path = path.into_inner();
     let claims = req.extensions().get::<Claims>().unwrap().clone();
-    let service = state.users_service(claims.tenant_id);
+    let service = state.users_service(claims.company_id);
 
     match  service.user_by_id(&path.id).await {
         Ok(user) => {

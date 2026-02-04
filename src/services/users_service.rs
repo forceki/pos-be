@@ -69,7 +69,7 @@ impl UsersService {
             fullname: dto.fullname,
             password: hashed_password,
             role_id: dto.role_id,
-            tenant_id: dto.tenant_id,
+            company_id: dto.company_id,
             created_at: Utc::now(),
             updated_at: Utc::now(),
         };

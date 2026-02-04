@@ -22,7 +22,7 @@ impl RolesService{
             id: Uuid::new_v4().to_string(),
             name: body.name,
             description: body.description,
-            tenant_id: body.tenant_id,
+            company_id: body.company_id,
             created_at: Utc::now(),
             updated_at: Some(Utc::now())
         };
