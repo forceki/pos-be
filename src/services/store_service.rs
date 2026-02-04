@@ -1,9 +1,9 @@
 use crate::utils::pagination::PaginationMeta;
 use crate::{dtos::pagination_dto::PaginationQuery, repository::store_repository::StoreRepository};
-use crate::dtos::store_dto::CreateStoreDto;
+use crate::dtos::store_dto::{ArchiveStoreDto, CreateStoreDto, StoreQuery, UpdateStoreDto};
 use crate::models::store_model::Store;
 use crate::utils::text_utils; // Pastikan kamu punya slug generator
-use actix_web::error::{ErrorBadRequest, ErrorInternalServerError};
+use actix_web::error::{ErrorBadRequest, ErrorInternalServerError, ErrorNotFound};
 use uuid::Uuid;
 use chrono::Utc;
 
@@ -45,12 +45,14 @@ impl StoreService {
         Ok(new_store.id)
     }
 
-    pub async fn get_all_stores(&self, query: PaginationQuery) ->  Result<(Vec<Store>, PaginationMeta), actix_web::Error> {
-        let page = query.get_page();
-        let limit = query.get_limit();
-        let offset = query.get_offset();
+    pub async fn get_all_stores(&self, query: StoreQuery) ->  Result<(Vec<Store>, PaginationMeta), actix_web::Error> {
+        let page = query.pagination.get_page();
+        let limit = query.pagination.get_limit();
+        let offset = query.pagination.get_offset();
+        let status = query.status;
+        let search = query.search;
 
-        let (data_db, total_items) = self.repo.get_all(limit, offset)
+        let (data_db, total_items) = self.repo.get_all(limit, offset, status, search)
             .await
             .map_err(|e| ErrorInternalServerError(e))?;
 
@@ -62,5 +64,34 @@ impl StoreService {
         let meta = PaginationMeta::new(page, limit, total_items);
 
         return Ok((data_dto, meta));
+    }
+
+    pub async fn update_store(&self, id: &str, dto: UpdateStoreDto) -> Result<(), actix_web::Error> {
+
+        let rows_affected = self.repo.update(id, &dto)
+            .await
+            .map_err(|e| ErrorInternalServerError(e))?;
+
+
+        if rows_affected == 0 {
+            return Err(ErrorNotFound("Store not found"));
+        }
+        
+        Ok(())
+    }
+
+    pub async fn update_status_store(&self, payload: ArchiveStoreDto) -> Result<(), actix_web::Error> {
+        let status = payload.status;
+        let id = payload.id;
+
+        let rows_affected = self.repo.archive_unarchive(&id,status)
+            .await
+            .map_err(|e| ErrorInternalServerError(e))?;
+
+        if rows_affected == 0 {
+            return Err(ErrorNotFound("Store not found"));
+        }
+
+        Ok(())
     }
 }

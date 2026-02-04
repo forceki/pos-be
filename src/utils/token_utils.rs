@@ -5,7 +5,7 @@ use std::env;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Claims {
-    pub sub: String,  
+    pub userid: String,  
     pub company_id: String,
     pub role: String, 
     pub exp: usize, 
@@ -22,7 +22,7 @@ pub fn generate_token(user_id: &str, role_id: &str, company_id: &str) -> Result<
         .timestamp();
 
     let claims = Claims {
-        sub: user_id.to_owned(),
+        userid: user_id.to_owned(),
         company_id: company_id.to_owned(),
         role: role_id.to_owned(),
         exp: expiration as usize,

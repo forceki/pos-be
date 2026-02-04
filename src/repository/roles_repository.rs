@@ -40,7 +40,8 @@ impl RolesRepository{
 
         let roles = sqlx::query_as!(
             Roles,
-            "SELECT id, name, description, company_id, created_at, updated_at FROM roles LIMIT ? OFFSET ?",
+            "SELECT id, name, description, company_id, created_at, updated_at FROM roles WHERE company_id = ? LIMIT ? OFFSET ?",
+            self.company_id,
             limit,
             offset
         )

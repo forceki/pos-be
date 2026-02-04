@@ -1,4 +1,4 @@
-use crate::dtos::auth_dto::{CreateOnboardDTO, LoginResponseDto, LoginUserDTO, OnboardUserDTO, RegisterUserDTO, UserResponseDto};
+use crate::dtos::auth_dto::{CreateOnboardDTO, LoginResponseDto, LoginUserDTO, OnboardUserDTO, UserResponseDto};
 use crate::repository::auth_repository::AuthRepository;
 use crate::utils::{text_utils, token_utils};
 use uuid::Uuid;
