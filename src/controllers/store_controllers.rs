@@ -1,4 +1,4 @@
-use actix_web::{HttpMessage, HttpRequest, Responder, get, patch, post, put, web};
+use actix_web::{HttpMessage, HttpRequest, Responder, get, post, put, web};
 use crate::app_state::AppState;
 use crate::dtos::store_dto::{ArchiveStoreDto, CreateStoreDto, StoreQuery, UpdateStoreDto};
 use crate::utils::{api_response::ApiResponse, token_utils::Claims};

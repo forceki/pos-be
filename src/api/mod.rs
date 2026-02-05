@@ -6,6 +6,7 @@ mod roles_routes;
 mod company_routes;
 mod stores_routes;
 mod category_routes;
+mod brand_routes;
 
 pub fn config(cfg: &mut web::ServiceConfig) {
     cfg.service(
@@ -16,5 +17,6 @@ pub fn config(cfg: &mut web::ServiceConfig) {
             .configure(company_routes::config)
             .configure(stores_routes::config)
             .configure(category_routes::config)
+            .configure( brand_routes::config)
     );
 }

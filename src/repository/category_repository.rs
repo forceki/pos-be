@@ -1,7 +1,7 @@
 use chrono::Utc;
 use sqlx::{MySql, MySqlPool, QueryBuilder, FromRow};
 use crate::models::category_model::Category;
-use crate::dtos::category_dto::{CreateCategoryDto, UpdateCategoryDto};
+use crate::dtos::category_dto::{UpdateCategoryDto};
 
 pub struct CategoryRepository {
     pool: MySqlPool,

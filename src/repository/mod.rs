@@ -4,3 +4,4 @@ pub mod company_repository;
 pub mod auth_repository;
 pub  mod store_repository;
 pub  mod category_repository;
+pub mod brand_repository;

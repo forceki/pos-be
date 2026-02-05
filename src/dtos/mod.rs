@@ -4,3 +4,4 @@ pub mod roles_dto;
 pub mod company_dto;
 pub mod store_dto;
 pub mod category_dto;
+pub mod brand_dto;

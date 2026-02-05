@@ -8,6 +8,7 @@ use crate::utils::pagination::PaginationMeta;
 pub struct ResponseBody<T> {
     pub status: u16,
     pub message: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<T>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub meta: Option<PaginationMeta>,
